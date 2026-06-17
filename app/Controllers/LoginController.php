@@ -6,7 +6,7 @@ use App\Controllers\AccueilController ;
 
 class LoginController extends BaseController
 {
-
+    
     public function index()
     {
         return view('login/login');
