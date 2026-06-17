@@ -2,7 +2,7 @@
 
 use CodeIgniter\Router\RouteCollection;
 
-/**
- * @var RouteCollection $routes
- */
-$routes->get('/', 'Home::index');
+
+$routes->get('/', 'AccueilController::index');
+$routes->get('/Check_Caisse', 'CaisseController::checkCaisse');
+$routes->post('/Valider_Achat', 'AchatControllers::insert_achat');
