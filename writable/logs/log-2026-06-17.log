@@ -68,3 +68,17 @@ in APPPATH\Views\achat\achat.php on line 18.
  9 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
 10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
 11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-06-17 07:35:33 --> ErrorException: Undefined variable $clients
+[Method: GET, Route: Check_Caisse]
+in APPPATH\Views\achat\achat.php on line 18.
+ 1 APPPATH\Views\achat\achat.php(18): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $clients', 'F:\\Supermarket\\app\\Views\\achat\\achat.php', 18)
+ 2 SYSTEMPATH\View\View.php(240): include('F:\\Supermarket\\app\\Views\\achat\\achat.php')
+ 3 SYSTEMPATH\View\View.php(243): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('achat/achat', [], true)
+ 5 APPPATH\Controllers\CaisseController.php(29): view('achat/achat', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\CaisseController->checkCaisse()
+ 7 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\CaisseController))
+ 8 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
