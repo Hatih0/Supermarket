@@ -28,45 +28,90 @@ class AchatControllers extends BaseController
         ]);
     }
 
-    public function insert_achat()
-    {
-        $achatMereModel = new Achat_mere();
-        $achatFilleModel = new Achat_fille();
-        $caisseModel = new CaisseModel();
+public function insert_achat()
+{
+    $achatMereModel = new Achat_mere();
+    $achatFilleModel = new Achat_fille();
+    $caisseModel = new CaisseModel();
+    $produitModel = new ProduitModel();
 
-        $caisseId = $this->request->getPost('caisse_id');
-        $idClient = $this->request->getPost('idClient');
+    $db = \Config\Database::connect();
 
-        $details = json_decode(
-            $this->request->getPost('detailsAchat'),
-            true
-        );
+    $caisseId = $this->request->getPost('caisse_id');
+    $idClient = $this->request->getPost('idClient');
 
-        if (!$caisseModel->find($caisseId)) {
+    $details = json_decode(
+        $this->request->getPost('detailsAchat'),
+        true
+    );
+
+    if (!$caisseModel->find($caisseId)) {
+        return redirect()->back()
+            ->with('error', 'Caisse introuvable');
+    }
+
+    if (empty($details)) {
+        return redirect()->back()
+            ->with('error', 'Aucun produit sélectionné');
+    }
+
+    foreach ($details as $detail) {
+
+        $produit = $produitModel->find($detail['id_produit']);
+
+        if (!$produit) {
             return redirect()->back()
-                ->with('error', 'Caisse introuvable');
+                ->with('error', 'Produit introuvable');
         }
 
-        if (empty($details)) {
+        if ($produit['quantite_en_stock'] < $detail['quantite']) {
             return redirect()->back()
-                ->with('error', 'Aucun produit selectionne');
+                ->with(
+                    'error',
+                    'Stock insuffisant pour le produit : ' .
+                    $produit['designation']
+                );
         }
+    }
 
-        $achatMereId = $achatMereModel->insertAchaMere([
-            'id_caisse' => $caisseId,
-            'id_client' => $idClient
+    $db->transStart();
+
+    $achatMereId = $achatMereModel->insertAchaMere([
+        'id_caisse' => $caisseId,
+        'id_client' => $idClient
+    ]);
+
+    foreach ($details as $detail) {
+
+        $achatFilleModel->insert([
+            'id_achat_mere' => $achatMereId,
+            'id_produit' => $detail['id_produit'],
+            'quantite' => $detail['quantite']
         ]);
 
-        foreach ($details as $detail) {
+        $produit = $produitModel->find($detail['id_produit']);
 
-            $achatFilleModel->insert([
-                'id_achat_mere' => $achatMereId,
-                'id_produit' => $detail['id_produit'],
-                'quantite' => $detail['quantite']
-            ]);
-        }
+        $nouveauStock =
+            $produit['quantite_en_stock']
+            - $detail['quantite'];
 
-        return redirect()->back()
-            ->with('success', 'Achat enregistre avec succès');
+        $produitModel->update(
+            $detail['id_produit'],
+            [
+                'quantite_en_stock' => $nouveauStock
+            ]
+        );
     }
+
+    $db->transComplete();
+
+    if (!$db->transStatus()) {
+        return redirect()->back()
+            ->with('error', 'Erreur lors de l\'enregistrement');
+    }
+
+    return redirect()->back()
+        ->with('success', 'Achat enregistré avec succès');
+}
+
 }

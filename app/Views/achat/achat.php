@@ -7,6 +7,28 @@
 </head>
 <body>
 
+    <?php if (session()->getFlashdata('error')): ?>
+    <div style="
+        color:white;
+        background:red;
+        padding:10px;
+        margin-bottom:15px;
+    ">
+        <?= session()->getFlashdata('error') ?>
+    </div>
+<?php endif; ?>
+
+<?php if (session()->getFlashdata('success')): ?>
+    <div style="
+        color:white;
+        background:green;
+        padding:10px;
+        margin-bottom:15px;
+    ">
+        <?= session()->getFlashdata('success') ?>
+    </div>
+<?php endif; ?>
+
     <h1>Saisie d'achat</h1>
 
     <p>
@@ -70,7 +92,7 @@
             type="button"
             onclick="ajouterProduit()"
         >
-            Ajouter Produit
+            Valider
         </button>
 
         <hr>
@@ -108,7 +130,7 @@
         <br>
 
         <button type="submit">
-            Clôturer Achat
+            Cloturer Achat
         </button>
 
     </form>
@@ -141,7 +163,7 @@
 
             if (!quantite || quantite <= 0)
             {
-                alert("Veuillez saisir une quantité valide.");
+                alert("Veuillez saisir une quantite valide.");
                 return;
             }
 
