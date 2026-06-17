@@ -5,23 +5,30 @@ body {
     background: #F0F4FA;
     color: #1E293B;
     min-height: 100vh;
-    padding: 1.5rem 1rem 3rem;
+    padding: 2rem 1rem 3rem;
+    
+    /* ── AJOUT POUR CENTRER LA PAGE ── */
+    display: flex;
+    flex-direction: column;
+    align-items: center;      /* Centre horizontalement tous les blocs enfants */
+    justify-content: flex-start; /* Permet un défilement naturel si la page est longue */
 }
 
+/* On s'assure que les alertes et les titres respectent la même largeur max que la carte */
+.back-link,
+.page-title,
+.caisse-badge,
+.alert,
+.card {
+    width: 100%;
+    max-width: 720px; /* Aligne parfaitement tous les éléments à la même largeur */
+}
+
+/* Ajustement pour le lien de retour qui ne doit pas prendre 100% de largeur */
 .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 13px;
-    font-weight: 500;
-    color: #475569;
-    text-decoration: none;
-    padding: 6px 14px;
-    background: #fff;
-    border: 1px solid #E2E8F0;
-    border-radius: 999px;
-    margin-bottom: 1rem;
-    transition: all 0.15s;
+    width: auto;
+    align-self: flex-start; /* Optionnel : aligne le bouton "Retour" à gauche de la zone centrale */
+    margin-left: max(0px, calc((100% - 720px) / 2)); /* Aligne le bouton avec le bord gauche de la carte */
 }
 .back-link:hover {
     color: #2563EB;

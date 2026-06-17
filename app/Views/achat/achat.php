@@ -10,6 +10,7 @@
 
     <a class="back-link" href="/">← Retour au choix de caisse</a>
 
+    <br> 
     <?php if (session()->getFlashdata('error')) : ?>
         <div class="alert alert--error">
             <?= session()->getFlashdata('error') ?>
