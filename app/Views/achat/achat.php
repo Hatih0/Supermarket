@@ -4,114 +4,103 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saisie Achat</title>
+    <link rel="stylesheet" href="<?= base_url('css/achat.css') ?>">
 </head>
 <body>
 
-    <h1>Saisie d'achat</h1>
+    <a class="back-link" href="/">← Retour au choix de caisse</a>
 
-    <p>
-        Caisse :
-        <?= $caisse['libelle'] ?>
-    </p>
+    <h1 class="page-title">Saisie d'achat</h1>
 
-    <form action="/Valider_Achat" method="post" id="formAchat">
+    <h2 class="caisse-badge">
+        Caisse <?= $caisse['libelle'] ?>
+    </h2>
 
-        <input
-            type="hidden"
-            name="caisse_id"
-            value="<?= $caisse['id'] ?>"
-        >
+    <div class="card">
 
-        <input
-            type="hidden"
-            name="detailsAchat"
-            id="detailsAchat"
-        >
+        <form action="/Valider_Achat" method="post" id="formAchat">
 
-        <h3>Client</h3>
+            <input type="hidden" name="caisse_id" value="<?= $caisse['id'] ?>">
+            <input type="hidden" name="detailsAchat" id="detailsAchat">
 
-        <select name="idClient" required>
-            <?php foreach ($clients as $client): ?>
-                <option value="<?= $client['id'] ?>">
-                    <?= $client['nom'] ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+            <h3 class="section-title">Client</h3>
 
-        <hr>
+            <select class="form-select" name="idClient" required>
+                <?php foreach ($clients as $client) : ?>
+                    <option value="<?= $client['id'] ?>">
+                        <?= $client['nom'] ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
 
-        <h3>Ajouter un produit</h3>
+            <div class="divider"></div>
 
-        <select id="produit_id">
+            <h3 class="section-title">Ajouter un produit</h3>
 
-            <?php foreach ($produits as $produit): ?>
+            <div class="product-row">
 
-                <option
-                    value="<?= $produit['id'] ?>"
-                    data-designation="<?= $produit['designation'] ?>"
-                    data-prix="<?= $produit['price'] ?>"
+                <select class="form-select" id="produit_id">
+                    <?php foreach ($produits as $produit) : ?>
+                        <option
+                            value="<?= $produit['id'] ?>"
+                            data-designation="<?= $produit['designation'] ?>"
+                            data-prix="<?= $produit['price'] ?>"
+                        >
+                            <?= $produit['designation'] ?>
+                            (<?= $produit['price'] ?> Ar)
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+
+                <input
+                    class="form-input"
+                    type="number"
+                    id="quantite"
+                    placeholder="Quantité"
+                    min="1"
                 >
-                    <?= $produit['designation'] ?>
-                    (<?= $produit['price'] ?> Ar)
-                </option>
 
-            <?php endforeach; ?>
+                <button class="btn btn--secondary" type="button" onclick="ajouterProduit()">
+                    + Ajouter
+                </button>
 
-        </select>
+            </div>
 
-        <input
-            type="number"
-            id="quantite"
-            placeholder="Quantité"
-            min="1"
-        >
+            <div class="divider"></div>
 
-        <button
-            type="button"
-            onclick="ajouterProduit()"
-        >
-            Ajouter Produit
-        </button>
+            <h3 class="section-title">Produits ajoutés</h3>
 
-        <hr>
+            <div class="table-wrap">
+                <table id="tableProduits" class="table-produits">
+                    <thead>
+                        <tr>
+                            <th>Produit</th>
+                            <th>Prix Unitaire</th>
+                            <th>Quantité</th>
+                            <th>Montant</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                    <tfoot>
+                        <tr class="total-row">
+                            <td colspan="3"><strong>Total</strong></td>
+                            <td id="totalGeneral">0 Ar</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
 
-        <table border="1" id="tableProduits">
+            <div class="divider"></div>
 
-            <thead>
-                <tr>
-                    <th>Produit</th>
-                    <th>Prix Unitaire</th>
-                    <th>Quantité</th>
-                    <th>Montant</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
+            <button class="btn btn--primary" type="submit">
+                ✓ Clôturer Achat
+            </button>
 
-            <tbody>
+        </form>
 
-            </tbody>
-
-            <tfoot>
-                <tr>
-                    <td colspan="3">
-                        <strong>Total</strong>
-                    </td>
-                    <td id="totalGeneral">
-                        0
-                    </td>
-                    <td></td>
-                </tr>
-            </tfoot>
-
-        </table>
-
-        <br>
-
-        <button type="submit">
-            Clôturer Achat
-        </button>
-
-    </form>
+    </div>
 
     <script>
 
@@ -163,15 +152,16 @@
 
             tr.innerHTML = `
                 <td>${designation}</td>
-                <td>${prix}</td>
+                <td>${prix} Ar</td>
                 <td>${quantite}</td>
-                <td>${montant}</td>
+                <td>${montant} Ar</td>
                 <td>
                     <button
+                        class="btn btn--danger-sm"
                         type="button"
                         onclick="supprimerProduit(this, ${index})"
                     >
-                        Supprimer
+                        ✕ Supprimer
                     </button>
                 </td>
             `;
@@ -235,15 +225,16 @@
 
                 tr.innerHTML = `
                     <td>${designation}</td>
-                    <td>${prix}</td>
+                    <td>${prix} Ar</td>
                     <td>${ligne.quantite}</td>
-                    <td>${montant}</td>
+                    <td>${montant} Ar</td>
                     <td>
                         <button
+                            class="btn btn--danger-sm"
                             type="button"
                             onclick="supprimerProduit(this, ${index})"
                         >
-                            Supprimer
+                            ✕ Supprimer
                         </button>
                     </td>
                 `;
