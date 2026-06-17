@@ -314,6 +314,16 @@ in APPPATH\Views\achat\achat.php on line 18.
  5 APPPATH\Controllers\AchatControllers.php(46): view('achat/achat', [...])
  6 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\AchatControllers->insert_achat()
  7 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AchatControllers))
+CRITICAL - 2026-06-17 06:55:36 --> ErrorException: Undefined variable $clients
+[Method: GET, Route: Check_Caisse]
+in APPPATH\Views\achat\achat.php on line 18.
+ 1 APPPATH\Views\achat\achat.php(18): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $clients', 'F:\\Supermarket\\app\\Views\\achat\\achat.php', 18)
+ 2 SYSTEMPATH\View\View.php(240): include('F:\\Supermarket\\app\\Views\\achat\\achat.php')
+ 3 SYSTEMPATH\View\View.php(243): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('achat/achat', [], true)
+ 5 APPPATH\Controllers\CaisseController.php(29): view('achat/achat', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\CaisseController->checkCaisse()
+ 7 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\CaisseController))
  8 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
  9 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
 10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
@@ -350,3 +360,13 @@ DEBUG - 2026-06-17 07:48:05 --> Session: Class initialized using 'CodeIgniter\Se
 DEBUG - 2026-06-17 07:48:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
 DEBUG - 2026-06-17 07:49:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
 DEBUG - 2026-06-17 07:49:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-06-17 07:53:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-06-17 07:54:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-06-17 07:54:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-06-17 07:54:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-06-17 07:54:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-06-17 07:54:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-06-17 07:54:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-06-17 07:54:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-06-17 07:54:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-06-17 07:55:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
