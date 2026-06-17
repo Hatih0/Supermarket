@@ -9,29 +9,18 @@
 <body>
 
     <a class="back-link" href="/">← Retour au choix de caisse</a>
-    <?php if (session()->getFlashdata('error')): ?>
-    <div style="
-        color:white;
-        background:red;
-        padding:10px;
-        margin-bottom:15px;
-    ">
-        <?= session()->getFlashdata('error') ?>
-    </div>
-<?php endif; ?>
 
-<?php if (session()->getFlashdata('success')): ?>
-    <div style="
-        color:white;
-        background:green;
-        padding:10px;
-        margin-bottom:15px;
-    ">
-        <?= session()->getFlashdata('success') ?>
-    </div>
-<?php endif; ?>
+    <?php if (session()->getFlashdata('error')) : ?>
+        <div class="alert alert--error">
+            <?= session()->getFlashdata('error') ?>
+        </div>
+    <?php endif; ?>
 
-    <h1>Saisie d'achat</h1>
+    <?php if (session()->getFlashdata('success')) : ?>
+        <div class="alert alert--success">
+            <?= session()->getFlashdata('success') ?>
+        </div>
+    <?php endif; ?>
 
     <h1 class="page-title">Saisie d'achat</h1>
 
@@ -92,12 +81,6 @@
             <div class="divider"></div>
 
             <h3 class="section-title">Produits ajoutés</h3>
-        <button
-            type="button"
-            onclick="ajouterProduit()"
-        >
-            Valider
-        </button>
 
             <div class="table-wrap">
                 <table id="tableProduits" class="table-produits">
@@ -130,29 +113,6 @@
         </form>
 
     </div>
-            </tbody>
-
-            <tfoot>
-                <tr>
-                    <td colspan="3">
-                        <strong>Total</strong>
-                    </td>
-                    <td id="totalGeneral">
-                        0
-                    </td>
-                    <td></td>
-                </tr>
-            </tfoot>
-
-        </table>
-
-        <br>
-
-        <button type="submit">
-            Cloturer Achat
-        </button>
-
-    </form>
 
     <script>
 
