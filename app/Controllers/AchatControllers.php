@@ -1,10 +1,12 @@
-<?php 
+<?php
 
-namespace App\Models;
+namespace App\Controllers;
 
 use App\Models\Achat_fille;
 use App\Models\Achat_mere;
 use App\Models\CaisseModel;
+use App\Models\ClientModel;
+use App\Models\ProduitModel;
 
 class AchatControllers extends BaseController
 {
@@ -13,38 +15,58 @@ class AchatControllers extends BaseController
         return view('accueil/accueil');
     }
 
-    public function insert_achat()
+    public function afficherFormulaire($caisseId)
     {
         $caisseModel = new CaisseModel();
-        $achatMereModel = new Achat_mere();
-        $achatFilleModel = new Achat_fille();
+        $clientModel = new ClientModel();
+        $produitModel = new ProduitModel();
 
-        $caisse_id = $this->request->getPost('caisse_id');
-        $idClient = $this->request->getPost('idClient');
-        $idproduits = $this->request->getPost('produit_id'); 
-        $qtt = $this->request->getPost('quantite');
-
-        if (!$caisseModel->find($caisse_id)) {
-            return redirect()->back()->with('error', 'Caisse non trouvée.');
-        }
-
-        $achatMereData = [
-            'id_caisse' => $caisse_id,
-            'idClient' => $idClient
-        ];
-        $achatMereId = $achatMereModel->insertAchaMere($achatMereData);
-
-        $achatFilleData = [
-            'id_achat_mere' => $achatMereId,
-            'id_produit' => $idproduit,
-            'quantite' => $qtt
-        ];
-        $achatFilleModel->insert($achatFilleData);
-
-        $allAchatFille = $achatFilleModel->getAllAchatFilleByIdAchatMere($achatMereId);
-
-        return \view('achat/achat', ['success' => 'Achat enregistré avec succès.', 'achatFille' => $allAchatFille , 'clientId' => $idClient]);
-
+        return view('achat/achat', [
+            'caisse' => $caisseModel->find($caisseId),
+            'clients' => $clientModel->findAll(),
+            'produits' => $produitModel->findAll()
+        ]);
     }
 
+    public function insert_achat()
+    {
+        $achatMereModel = new Achat_mere();
+        $achatFilleModel = new Achat_fille();
+        $caisseModel = new CaisseModel();
+
+        $caisseId = $this->request->getPost('caisse_id');
+        $idClient = $this->request->getPost('idClient');
+
+        $details = json_decode(
+            $this->request->getPost('detailsAchat'),
+            true
+        );
+
+        if (!$caisseModel->find($caisseId)) {
+            return redirect()->back()
+                ->with('error', 'Caisse introuvable');
+        }
+
+        if (empty($details)) {
+            return redirect()->back()
+                ->with('error', 'Aucun produit selectionne');
+        }
+
+        $achatMereId = $achatMereModel->insertAchaMere([
+            'id_caisse' => $caisseId,
+            'id_client' => $idClient
+        ]);
+
+        foreach ($details as $detail) {
+
+            $achatFilleModel->insert([
+                'id_achat_mere' => $achatMereId,
+                'id_produit' => $detail['id_produit'],
+                'quantite' => $detail['quantite']
+            ]);
+        }
+
+        return redirect()->back()
+            ->with('success', 'Achat enregistre avec succès');
+    }
 }

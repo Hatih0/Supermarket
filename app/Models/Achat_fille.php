@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Models;
-
-use App\Models\CaisseModel;
+use CodeIgniter\Model;
 
 class Achat_fille extends Model
 {
@@ -14,5 +13,6 @@ class Achat_fille extends Model
     {
         return $this->where('id_achat_mere', $idAchatMere)->findAll();
     }
+
 
 }

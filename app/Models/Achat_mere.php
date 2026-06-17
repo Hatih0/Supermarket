@@ -7,7 +7,7 @@ class Achat_mere extends Model
 {
     protected $table = 'achat_mere';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['id_caisse', 'idClient'];
+    protected $allowedFields = ['id_caisse', 'id_client'];
     
 
     public function insertAchaMere($data)
@@ -15,6 +15,6 @@ class Achat_mere extends Model
         $this->insert($data);
         return $this->getInsertID();
     }
-    
+
 
 }
